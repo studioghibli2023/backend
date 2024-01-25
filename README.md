@@ -8,12 +8,16 @@ Testing the application:
 
 **Core team & roles and Responsibilities**
 **Quality Engineer**
-  Bruce Buckler
-  Damian Klimiuk
-** Software Engineer 
+  * Bruce Buckler
+  * Damian Klimiuk
+
+    
+**Software Engineer **
+
   Cristiana Oliveira (B/E)
   Adrian Iosif (F/E and B/E)
-**Design 
+
+**Design **
   Stephen Reynolds
 
 **Frontend Engineer**
