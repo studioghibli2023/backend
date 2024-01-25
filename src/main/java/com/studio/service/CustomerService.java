@@ -1,11 +1,13 @@
 package com.studio.service;
 
-import com.studio.dto.Customer;
+import com.studio.dto.CustomerDTO;
 
 import java.util.List;
 
 public interface CustomerService {
-    Customer getCustomer(String customerId);
+    CustomerDTO getCustomer(String customerId);
 
-    List<Customer> getCustomers();
+    List<CustomerDTO> getCustomers();
+
+    void saveCustomer(CustomerDTO customer) throws RuntimeException;
 }
