@@ -15,16 +15,19 @@ Testing the application:
     
 **Software Engineer**
 
-  Cristiana Oliveira (B/E)
-  Adrian Iosif (F/E and B/E)
+  * Cristiana Oliveira (B/E)
+  * Adrian Iosif (F/E and B/E)
 
 **Design**
+
   Stephen Reynolds
 
 **Frontend Engineer**
+
   Bruce Buckler
 
 **Scrum Master**
+
   Jimmy Augustine
 
 **Definition of Done**
