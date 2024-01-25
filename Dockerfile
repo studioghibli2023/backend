@@ -1,6 +1,4 @@
-FROM tomcat
-
-ADD app.war /usr/local/tomcat/webapps/
-CMD ["catalina.sh", "run"]
-EXPOSE 8080
-EXPOSE 80
+FROM eclipse-temurin:17-jdk-alpine
+VOLUME /tmp
+COPY target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
