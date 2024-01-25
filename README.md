@@ -13,12 +13,12 @@ Testing the application:
   * Damian Klimiuk
 
     
-**Software Engineer **
+**Software Engineer**
 
   Cristiana Oliveira (B/E)
   Adrian Iosif (F/E and B/E)
 
-**Design **
+**Design**
   Stephen Reynolds
 
 **Frontend Engineer**
