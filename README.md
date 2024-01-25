@@ -20,15 +20,15 @@ Testing the application:
 
 **Design**
 
-  Stephen Reynolds
+  * Stephen Reynolds
 
 **Frontend Engineer**
 
-  Bruce Buckler
+  * Bruce Buckler
 
 **Scrum Master**
 
-  Jimmy Augustine
+  * Jimmy Augustine
 
 **Definition of Done**
 1) Code Written and Peer Reviewed: All code for features, fixes, and updates (both front-end and back-end) must be completed and subjected to peer review. This includes adherence to coding standards and best practices.
