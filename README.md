@@ -7,6 +7,7 @@ Testing the application:
 # General Details
 
 **Core team & roles and Responsibilities**
+
 **Quality Engineer**
   * Bruce Buckler
   * Damian Klimiuk
