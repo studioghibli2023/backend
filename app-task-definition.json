@@ -1,0 +1,54 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:667864223568:task-definition/studio-ghibli-task-family:37",
+    "containerDefinitions": [
+        {
+            "name": "studio-ghibli-container",
+            "image": "667864223568.dkr.ecr.us-east-1.amazonaws.com/studio-ghibli-ecr-repo",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": []
+        }
+    ],
+    "family": "studio-ghibli-task-family",
+    "executionRoleArn": "arn:aws:iam::667864223568:role/studio-ghibli-ecs-execution-role",
+    "networkMode": "awsvpc",
+    "revision": 37,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "3072",
+    "registeredAt": "2024-01-29T20:23:14.004Z",
+    "registeredBy": "arn:aws:iam::667864223568:user/l00157158@atu.ie",
+    "tags": []
+}
