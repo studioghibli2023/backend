@@ -2,7 +2,8 @@
 
 Testing the application:
 1. Run App.java
-2. Send request to http://localhost:8080/app/customer?customerId=test
+2. Test using swagger : http://localhost:8080/app/swagger-ui/index.html
+3. Database for test : http://localhost:8080/app/h2-console
 
 # General Details
 
