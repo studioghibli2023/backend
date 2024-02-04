@@ -73,10 +73,7 @@ jobs:
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
         #Deploy to ECS Fargate
-  Deploy_to_ECS: 
-    needs: Push_docker_to_ECR
-    runs-on: ubuntu-latest
-    steps:
+  
      
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
