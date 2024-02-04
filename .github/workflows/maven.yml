@@ -45,6 +45,7 @@ jobs:
       run: mvn -B package --file pom.xml
   
   Push_docker_to_ECR: 
+    needs: build
     runs-on: ubuntu-latest
     steps:   
     - name: Configure AWS credentials
@@ -75,6 +76,7 @@ jobs:
 
         #Deploy to ECS Fargate
   Deploy_to_ECS: 
+    needs: Push_docker_to_ECR
     runs-on: ubuntu-latest
     steps:
      
