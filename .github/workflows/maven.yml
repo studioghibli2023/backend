@@ -58,11 +58,7 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-  Push_docker_image_to_ECR: 
-    needs: build
-    runs-on: ubuntu-latest
-    
-    steps:
+  
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
