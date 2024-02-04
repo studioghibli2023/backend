@@ -44,10 +44,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
   
-  Push_docker_to_ECR: 
-    needs: build
-    runs-on: ubuntu-latest
-    steps:   
+     
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -61,6 +58,11 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+  Push_docker_image_to_ECR: 
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
