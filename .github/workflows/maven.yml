@@ -50,7 +50,7 @@ jobs:
       uses: SonarSource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provided by GitHub
-        SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}    # SonarCloud token, stored in repo secrets
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # SonarCloud token, stored in repo secrets
       with:
         projectBaseDir: ./  # Or specify the directory of your project if it's not in the root
  # -------------------------------------
