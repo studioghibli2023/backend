@@ -47,7 +47,7 @@ jobs:
 #  -------------------------------------
       # SonarCloud analysis step
     - name: Build and SonarCloud analysis
-      run: mvn -B verify sonar:sonar -Dsonar.projectKey=studioghibli2023 -Dsonar.organization=studioghibli2023 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      run: mvn -B verify sonar:sonar -Dsonar.projectKey=studioghibli2023_backend -Dsonar.organization=studioghibli2023 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
  # -------------------------------------
   
