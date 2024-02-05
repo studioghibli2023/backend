@@ -80,13 +80,15 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           
       #  ------------------------------------- Trivy vulnerability scan  -------------------------------------
+
     - name: Install and run Trivy vulnerability scan
       uses: aquasecurity/trivy-action@master
       with:
-         image-ref: '${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}'
-         format: 'table'
-         exit-code: '1'
-         severity: 'HIGH,CRITICAL'
+        image-ref: '${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}'
+        format: 'table'
+        exit-code: '1'
+        severity: 'HIGH,CRITICAL'
+
 
       #  ------------------------------------- Trivy vulnerability scan end------------------------------------
       
