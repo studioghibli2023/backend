@@ -20,19 +20,19 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class UserServiceImplTest {
+class UserServiceImplTest {
 
     @Autowired
-    public UserServiceImpl userService;
+    UserServiceImpl userService;
 
     @Test
-    public void testGetUsers() {
+    void testGetUsers() {
         UserRepository localMockRepository = Mockito.mock(UserRepository.class);
         when(localMockRepository.findAll()).thenReturn(new ArrayList<>());
         Assert.assertNotNull(userService.getUsers());
     }
     @Test
-    public void testSave() {
+    void testSave() {
         UserRepository localMockRepository = Mockito.mock(UserRepository.class);
         UserDTO userDTO = Mockito.mock(UserDTO.class);
         when(userDTO.getUserRole()).thenReturn(UserRole.CUSTOMER);

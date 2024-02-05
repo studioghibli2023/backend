@@ -5,28 +5,28 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DataValidationUtilTest {
+class DataValidationUtilTest {
 
     @Test
-    public void testValidEmail() {
+    void testValidEmail() {
         String emailAddress = "username@domain.com";
         assertTrue(DataValidationUtil.isValidEmail(emailAddress));
     }
 
     @Test
-    public void testInvalidEmail() {
+    void testInvalidEmail() {
         String emailAddress = "username@domain.com123";
         assertFalse(DataValidationUtil.isValidEmail(emailAddress));
     }
 
     @Test
-    public void testIsValidName() {
+    void testIsValidName() {
         String name = "Test My Name";
         assertTrue(DataValidationUtil.isValidName(name));
     }
 
     @Test
-    public void testIsInvalidName() {
+    void testIsInvalidName() {
         String name = "Test My Name 123";
         assertFalse(DataValidationUtil.isValidName(name));
     }
