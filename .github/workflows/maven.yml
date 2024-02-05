@@ -24,9 +24,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" , "TBBT-37"]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "tbbt-37"]
   workflow_dispatch:
   
 jobs:
