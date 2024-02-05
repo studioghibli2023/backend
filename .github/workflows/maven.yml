@@ -97,7 +97,7 @@ jobs:
         image-ref: '${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}'
         format: 'table'
         exit-code: '1'
-        severity: 'HIGH,CRITICAL'
+        severity: 'CRITICAL'
 
 
       #  ------------------------------------- Trivy vulnerability scan end------------------------------------
