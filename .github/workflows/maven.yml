@@ -46,13 +46,9 @@ jobs:
 
 #  -------------------------------------
       # SonarCloud analysis step
-    - name: SonarCloud analysis
-      uses: SonarSource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provided by GitHub
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # SonarCloud token, stored in repo secrets
-      with:
-        projectBaseDir: ./  # Or specify the directory of your project if it's not in the root
+    - name: Build and SonarCloud analysis
+      run: mvn -B verify sonar:sonar -Dsonar.projectKey=studioghibli2023 -Dsonar.organization=studioghibli2023 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
  # -------------------------------------
   
      
