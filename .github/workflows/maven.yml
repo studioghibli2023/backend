@@ -8,7 +8,7 @@
 
 # This workflow will build and push a new container image to Amazon ECR,
 # and then will deploy a new task definition to Amazon ECS, when there is a push to the "main" branch.
-
+# Sonarcloud Automatic Analysis is turned off so that the analysis will be part of the pipeline
 
 env:
   AWS_REGION: us-east-1                   #set this to your preferred AWS region, e.g. us-west-1
@@ -24,9 +24,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" , "TBBT-37"]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main", "tbbt-37"]
+    branches: [ "main" ]
   workflow_dispatch:
   
 jobs:
@@ -44,15 +44,15 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-#  -------------------------------------
+#  ------------------------------------- 
       # SonarCloud analysis step
-    - name: SonarCloud analysis
-      uses: SonarSource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provided by GitHub
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}    # SonarCloud token, stored in repo secrets
-      with:
-        projectBaseDir: ./  # Or specify the directory of your project if it's not in the root
+#    - name: Build and SonarCloud analysis
+#      run: mvn -B verify sonar:sonar -Dsonar.projectKey=studioghibli2023_backend -Dsonar.organization=studioghibli2023 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+# SonarCloud analysis step - the below step has the qualitygate.wait=true parameter added to make the deployment fail if there are errors exceeds the quality gate set in Sonarcloud
+    - name: Build and SonarCloud analysis
+      run: mvn -B verify sonar:sonar -Dsonar.qualitygate.wait=true -Dsonar.projectKey=studioghibli2023_backend -Dsonar.organization=studioghibli2023 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
  # -------------------------------------
   
      
