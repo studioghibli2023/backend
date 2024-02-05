@@ -68,5 +68,8 @@ public class UserDTO {
         this.userRole = userRole;
     }
 
+    public boolean isAdminUser() {
+        return UserRole.isAdminUser(this.userRole);
+    }
 
 }

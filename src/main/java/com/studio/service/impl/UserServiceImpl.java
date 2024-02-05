@@ -31,6 +31,9 @@ public class UserServiceImpl implements UserService {
     @Override
 
     public void saveUser(UserDTO user) throws RuntimeException {
+        if(userRepository.existsByEmail(user.getEmail())){
+            throw new RuntimeException("User already exists");
+        }
         User userDomain = new User();
         userDomain.setName(user.getName());
         userDomain.setEmail(user.getEmail());

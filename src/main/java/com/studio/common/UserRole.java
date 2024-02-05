@@ -23,4 +23,11 @@ public enum UserRole {
         }
         return UserRole.CUSTOMER;
     }
+
+    public static boolean isAdminUser(final UserRole userRole) {
+        if (UserRole.ADMIN == userRole) {
+            return true;
+        }
+        return false;
+    }
 }
