@@ -43,6 +43,17 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
+#  -------------------------------------
+      # SonarCloud analysis step
+    - name: SonarCloud analysis
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provided by GitHub
+        SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}    # SonarCloud token, stored in repo secrets
+      with:
+        projectBaseDir: ./  # Or specify the directory of your project if it's not in the root
+ # -------------------------------------
   
      
     - name: Configure AWS credentials
