@@ -1,5 +1,6 @@
 package com.studio.service;
 
+import com.studio.domain.User;
 import com.studio.dto.UserDTO;
 
 import java.util.List;
@@ -9,5 +10,5 @@ public interface UserService {
 
     List<UserDTO> getUsers();
 
-    void saveUser(UserDTO user) throws RuntimeException;
+    User saveUser(UserDTO user) throws RuntimeException;
 }

@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
 
-    public void saveUser(UserDTO user) throws RuntimeException {
+    public User saveUser(UserDTO user) throws RuntimeException {
         if(userRepository.existsByEmail(user.getEmail())){
             throw new RuntimeException("User already exists");
         }
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         userDomain.setEmail(user.getEmail());
         userDomain.setPassword(user.getPassword());
         userDomain.setRole(user.getUserRole().getRoleNumber());
-        userRepository.saveAndFlush(userDomain);
+        return userRepository.save(userDomain);
     }
 
     @Override
