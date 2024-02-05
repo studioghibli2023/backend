@@ -1,15 +1,14 @@
 package com.studio.service.impl;
 
 import com.studio.common.UserRole;
-import com.studio.repository.UserRepository;
 import com.studio.domain.User;
 import com.studio.dto.UserDTO;
+import com.studio.repository.UserRepository;
 import com.studio.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -48,6 +47,6 @@ public class UserServiceImpl implements UserService {
         return users.stream()
                 .map(user -> new UserDTO(user.getId(), user.getName(), user.getEmail(), user.getPassword(),
                         UserRole.getUserRole(user.getRole())))
-                .collect(Collectors.toList());
+                .toList();
     }
 }
