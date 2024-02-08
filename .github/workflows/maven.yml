@@ -43,6 +43,17 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+
+#  ------------------------------------- 
+      # SonarCloud analysis step
+#    - name: Build and SonarCloud analysis
+#      run: mvn -B verify sonar:sonar -Dsonar.projectKey=studioghibli2023_backend -Dsonar.organization=studioghibli2023 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+# SonarCloud analysis step - the below step has the qualitygate.wait=true parameter added to make the deployment fail if there are errors exceeds the quality gate set in Sonarcloud
+    - name: Build and SonarCloud analysis
+      run: mvn -B verify sonar:sonar -Dsonar.qualitygate.wait=true -Dsonar.projectKey=studioghibli2023_backend -Dsonar.organization=studioghibli2023 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+ # -------------------------------------
   
      
     - name: Configure AWS credentials
@@ -64,11 +75,36 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
-         
+        
+      run: | # Build a docker container and push it to ECR so that it can be deployed to ECS.
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          
+  #  ------------------------------------- Trivy vulnerability scan  -------------------------------------
+    - name: Echo the constructed image reference
+      run: echo $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+        IMAGE_TAG: ${{ github.sha }}
+
+
+    - name: Install and run Trivy vulnerability scan
+      uses: aquasecurity/trivy-action@master
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      
+      with:
+        image-ref: '${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}'
+        format: 'table'
+        exit-code: '1'
+        severity: 'CRITICAL'
+
+
+      #  ------------------------------------- Trivy vulnerability scan end------------------------------------    
       
     - name: Push image to Amazon ECR
       run: |  
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .    
+
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
@@ -91,3 +127,4 @@ jobs:
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
         
+
