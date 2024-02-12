@@ -53,4 +53,15 @@ public class UserController {
         }
 
     }
+
+    @GetMapping(path = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> updateUserCourse(@RequestParam long userId, @RequestParam long courseId) {
+        try {
+            userService.updateUser(userId, courseId);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+        }
+
+    }
 }
