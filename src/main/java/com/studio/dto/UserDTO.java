@@ -8,17 +8,20 @@ public class UserDTO {
     private String email;
     private String password;
     private UserRole userRole;
+    private CourseDTO course;
 
     public UserDTO() {
 
     }
 
-    public UserDTO(final long id, final String name, final String email, final String password, final UserRole userRole) {
+    public UserDTO(final long id, final String name, final String email, final String password, final UserRole userRole,
+                   final CourseDTO course) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.userRole = userRole;
+        this.course = course;
     }
 
     public UserDTO(final String name, final String email, final String password, final UserRole userRole) {
@@ -72,4 +75,11 @@ public class UserDTO {
         return UserRole.isAdminUser(this.userRole);
     }
 
+    public CourseDTO getCourse() {
+        return course;
+    }
+
+    public void setCourse(CourseDTO course) {
+        this.course = course;
+    }
 }

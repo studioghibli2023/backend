@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     @Autowired
@@ -48,6 +49,17 @@ public class UserController {
     public ResponseEntity<Object> getAllUsers() {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(userService.getUsers());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+        }
+
+    }
+
+    @GetMapping(path = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> updateUserCourse(@RequestParam long userId, @RequestParam long courseId) {
+        try {
+            userService.updateUser(userId, courseId);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
         }

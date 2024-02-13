@@ -1,11 +1,10 @@
 package com.studio.repository;
 
-import com.studio.domain.User;
+import com.studio.domain.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    boolean existsByEmail(final String email);
 }

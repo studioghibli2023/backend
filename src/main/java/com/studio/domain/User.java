@@ -11,9 +11,10 @@ public class User {
     private String name;
     private String email;
     private int role;
-
-
     private String password;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    private Course course;
 
     public long getId() {
         return id;
@@ -25,6 +26,14 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public String getPassword() {

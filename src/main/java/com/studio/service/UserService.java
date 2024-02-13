@@ -11,4 +11,6 @@ public interface UserService {
     List<UserDTO> getUsers();
 
     User saveUser(UserDTO user) throws RuntimeException;
+
+    void updateUser(final long userId, final long courseId);
 }
