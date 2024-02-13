@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -23,16 +24,19 @@ public class CourseServiceImpl implements CourseService {
                 .toList();
     }
 
-    public void updateCourse(final CourseDTO courseDTO) {
-        courseRepository
-                .findById(courseDTO.getId())
-                .ifPresent(course -> {
-                    course.setName(courseDTO.getName());
-                    course.setDescription(courseDTO.getDescription());
-                    course.setImage(courseDTO.getImage());
-                    course.setPrice(courseDTO.getPrice());
-                    course.setDuration(courseDTO.getDuration());
-                    courseRepository.save(course);
-                });
+    public Course updateCourse(final CourseDTO courseDTO) {
+
+        Optional<Course> course = courseRepository.findById(courseDTO.getId());
+        if (course.isPresent()) {
+            Course courseDomain = course.get();
+            courseDomain.setName(courseDTO.getName());
+            courseDomain.setDescription(courseDTO.getDescription());
+            courseDomain.setImage(courseDTO.getImage());
+            courseDomain.setPrice(courseDTO.getPrice());
+            courseDomain.setDuration(courseDTO.getDuration());
+            return courseRepository.save(courseDomain);
+        } else {
+            throw new RuntimeException("Course ID does not exist!");
+        }
     }
 }
