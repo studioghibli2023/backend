@@ -7,7 +7,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     generate-ddl: true
-    hibernate.ddl-auto: update
+    hibernate.hbm2ddl.ddl-auto: update
     defer-datasource-initialization: true
   h2:
     console.enabled: true
