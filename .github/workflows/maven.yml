@@ -71,3 +71,7 @@ jobs:
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
+
+    - name: Run Postman Tests
+      run: newman run StudioGhibli20233 - Backend.postman_collection.json
+        
