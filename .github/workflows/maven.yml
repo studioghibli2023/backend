@@ -74,3 +74,12 @@ jobs:
       - name: Update ECS Service
         run: |
           aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment
+
+          
+  run-post-man-integration:
+    needs: update-ecs-service
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v3
+     - name: Run Postman Tests
+       run: newman run "StudioGhibli20233 - Backend.postman_collection.json"
