@@ -155,7 +155,7 @@
 		},
 		{
 			"key": "localURL",
-			"value": "http://be-studio-ghibli-load-balancer-2042206667.us-east-1.elb.amazonaws.com"
+			"value": "http://BE-studio-ghibli-load-balancer-360628592.us-east-1.elb.amazonaws.com"
 		}
 	]
 }
