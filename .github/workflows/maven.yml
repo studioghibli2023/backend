@@ -29,6 +29,30 @@ jobs:
     - name: Build and SonarCloud analysis
       run: mvn -B verify sonar:sonar -Dsonar.qualitygate.wait=true -Dsonar.projectKey=studioghibli2023_backend -Dsonar.organization=studioghibli2023 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
+#
+  codeql-analysis:
+    needs: sonar-cloud-test
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: java
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v1
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
+#
+
   build:
     needs: sonar-cloud-test
     runs-on: ubuntu-latest
