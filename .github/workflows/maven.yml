@@ -40,6 +40,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin' # This can be 'temurin', 'adopt', or 'zulu'
+          cache: maven
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
