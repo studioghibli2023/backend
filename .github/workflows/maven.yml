@@ -133,13 +133,16 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: maven
       
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/maven@master   
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          JAVA_HOME: ${{ steps.setup-java.outputs.java_home }}
         with:
           command: test  # You can customize Snyk commands as needed
+          args: --severity-threshold=critical
 
      #======================================snyk ends
      
