@@ -118,7 +118,7 @@ jobs:
         exit-code: '1'
         severity: 'HIGH,CRITICAL'
 
-      #  ------------------------------------- Trivy vulnerability scan end------------------------------------
+      #  ------------------------------------- Trivy vulnerability scan end------------------------------------ 
           
   run-post-man-integration:
     needs: update-ecs-service
