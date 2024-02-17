@@ -118,7 +118,31 @@ jobs:
           severity: 'CRITICAL'
 
       #  ------------------------------------- Trivy vulnerability scan end------------------------------------ 
-          
+
+      
+     #--------------------------------------snyk
+  snyk-security-scan:
+    needs: update-ecs-service  
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up JDK 17  # Adjust this step based on your project needs
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven@master   
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test  # You can customize Snyk commands as needed
+
+     #======================================snyk ends
+     
   run-post-man-integration:
     needs: update-ecs-service
     runs-on: ubuntu-latest
