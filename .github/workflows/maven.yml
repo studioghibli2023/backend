@@ -92,8 +92,8 @@ jobs:
 
  
       #  ------------------------------------- Trivy vulnerability scan  -------------------------------------
-  security-scan:
-    needs: update-ecs-service
+  trivy-security-scan:
+    needs: docker-build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials
