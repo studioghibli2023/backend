@@ -20,6 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
     - name: Build and SonarCloud analysis
       run: mvn -B verify sonar:sonar -Dsonar.qualitygate.wait=true -Dsonar.projectKey=studioghibli2023_backend -Dsonar.organization=studioghibli2023 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
   
