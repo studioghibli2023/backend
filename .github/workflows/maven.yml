@@ -1,27 +1,20 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build and push a new container image to Amazon ECR,
-# and then will deploy a new task definition to Amazon ECS, when there is a push to the "main" branch.
-env:
-  AWS_REGION: us-east-1                   #set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: backend-studio-ghibli-ecr-repo           # set this to your Amazon ECR repository name
-  ECS_SERVICE: backend-studio-ghibli-ecs-service-task                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: studio-ghibli-ecs-cluster                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: app-task-definition.json # set this to the path to your Amazon ECS task definition
-                                               # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: backend-studio-ghibli-container           # set this to the name of the container in the
-                                               # containerDefinitions section of your task definition
 name: Java CI with Maven
+
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: backend-studio-ghibli-ecr-repo
+  ECS_SERVICE: backend-studio-ghibli-ecs-service-task
+  ECS_CLUSTER: studio-ghibli-ecs-cluster
+  ECS_TASK_DEFINITION: app-task-definition.json
+  CONTAINER_NAME: backend-studio-ghibli-container
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,6 +28,21 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: target/my-artifact.jar
+
+  docker_push_ecr:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Download artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: my-artifact
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -50,20 +58,22 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        # Build a docker container and
-        # push it to ECR so that it can
-        # be deployed to ECS.
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
-        #Deploy to ECS Fargate
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+
+  deploy:
+    needs: docker_push_ecr
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.build-image.outputs.image }}
+        image: ${{ env.image }}
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
@@ -72,8 +82,10 @@ jobs:
         cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
 
-    - name: List files in the current directory
-      run: ls -la
-      
+  postman_test:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
     - name: Run Postman Tests
       run: newman run "StudioGhibli20233 - Backend.postman_collection.json"
