@@ -26,9 +26,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{localURL}}/app/user/obtain?customerId={{userId}}",
+					"raw": "{{serviceURL}}/app/user/obtain?customerId={{userId}}",
 					"host": [
-						"{{localURL}}"
+						"{{serviceURL}}"
 					],
 					"path": [
 						"app",
@@ -65,9 +65,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{localURL}}/app/user/all",
+					"raw": "{{serviceURL}}/app/user/all",
 					"host": [
-						"{{localURL}}"
+						"{{serviceURL}}"
 					],
 					"path": [
 						"app",
@@ -93,15 +93,28 @@
 						],
 						"type": "text/javascript"
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// pm.collectionVariables.set('firstName',$randomFirstName)\r",
+							"firstName = pm.collectionVariables.replaceIn('{{$randomFirstName}}')\r",
+							"secondName = pm.collectionVariables.replaceIn('{{$randomFirstName}}')\r",
+							"\r",
+							"pm.collectionVariables.set('fullName',firstName + secondName)"
+						],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{localURL}}/app/user/save?name=Test&email=testemail@test.ie&password=testpassword",
+					"raw": "{{serviceURL}}/app/user/save?name={{fullName}}&email={{fullName}}@tbbt.ie&password=Passw0rd1",
 					"host": [
-						"{{localURL}}"
+						"{{serviceURL}}"
 					],
 					"path": [
 						"app",
@@ -111,19 +124,167 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "Test"
+							"value": "{{fullName}}"
 						},
 						{
 							"key": "email",
-							"value": "testemail@test.ie"
+							"value": "{{fullName}}@tbbt.ie"
 						},
 						{
 							"key": "password",
-							"value": "testpassword"
+							"value": "Passw0rd1"
 						}
 					]
 				},
 				"description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+			},
+			"response": []
+		},
+		{
+			"name": "GET User Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{serviceURL}}/app/user/update?userId=1&courseId=1",
+					"host": [
+						"{{serviceURL}}"
+					],
+					"path": [
+						"app",
+						"user",
+						"update"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1"
+						},
+						{
+							"key": "courseId",
+							"value": "1"
+						}
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "GET Course ALL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{serviceURL}}/app/course/all",
+					"host": [
+						"{{serviceURL}}"
+					],
+					"path": [
+						"app",
+						"course",
+						"all"
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+			},
+			"response": []
+		},
+		{
+			"name": "GET Course Update",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{serviceURL}}/app/course/update?id=1&name=Course 2&description=Description&image=image&price=10&duration=2",
+					"host": [
+						"{{serviceURL}}"
+					],
+					"path": [
+						"app",
+						"course",
+						"update"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						},
+						{
+							"key": "name",
+							"value": "Course 2"
+						},
+						{
+							"key": "description",
+							"value": "Description"
+						},
+						{
+							"key": "image",
+							"value": "image"
+						},
+						{
+							"key": "price",
+							"value": "10"
+						},
+						{
+							"key": "duration",
+							"value": "2"
+						}
+					]
+				},
+				"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
 			},
 			"response": []
 		}
@@ -154,8 +315,12 @@
 			"value": "0"
 		},
 		{
-			"key": "localURL",
+			"key": "serviceURL",
 			"value": "http://BE-studio-ghibli-load-balancer-360628592.us-east-1.elb.amazonaws.com"
+		},
+		{
+			"key": "fullName",
+			"value": ""
 		}
 	]
 }
