@@ -1,13 +1,12 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password: sa
-    driverClassName: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/studioghibli?createDatabaseIfNotExist=true
+    username: root
+    password: root
+    driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     generate-ddl: true
-    hibernate.hbm2ddl.ddl-auto: update
+    hibernate.ddl-auto: update
     defer-datasource-initialization: true
-  h2:
-    console.enabled: true
+  sql.init.mode: always
