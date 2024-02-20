@@ -6,24 +6,22 @@ import com.studio.dto.UserDTO;
 import com.studio.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
-
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
 
-    @Autowired
+    @InjectMocks
     UserServiceImpl userService;
 
-    @MockBean
+    @Mock
     UserRepository userRepository;
 
     @Test
