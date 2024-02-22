@@ -29,7 +29,7 @@ public class CourseController {
 
     }
 
-    @GetMapping(path = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateCourse(@RequestParam long id, @RequestParam String name, @RequestParam String description, @RequestParam String image,
                                                @RequestParam BigDecimal price, @RequestParam int duration) {
         try {

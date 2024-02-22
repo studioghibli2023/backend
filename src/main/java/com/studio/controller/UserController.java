@@ -31,10 +31,18 @@ public class UserController {
     }
 
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> saveUser(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Object> saveCustomer(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
+        return saveUser(name, email, password,UserRole.CUSTOMER);
+    }
+    @PostMapping(path = "/saveAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> saveAdmin(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
+        return saveUser(name, email, password,UserRole.ADMIN);
+    }
+
+    private ResponseEntity<Object> saveUser(String name, String email, String password,UserRole userRole) {
         if (DataValidationUtil.isValidName(name) && DataValidationUtil.isValidEmail(email) && StringUtils.isNotBlank(password)) {
             try {
-                UserDTO user = new UserDTO(name, email, password, UserRole.CUSTOMER);
+                UserDTO user = new UserDTO(name, email, password, userRole);
                 userService.saveUser(user);
                 return ResponseEntity.status(HttpStatus.CREATED).build();
             } catch (RuntimeException e) {
@@ -55,7 +63,7 @@ public class UserController {
 
     }
 
-    @GetMapping(path = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateUserCourse(@RequestParam long userId, @RequestParam long courseId) {
         try {
             userService.updateUser(userId, courseId);
