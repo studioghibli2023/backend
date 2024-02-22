@@ -27,7 +27,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build and SonarCloud analysis
-      run: mvn -B verify sonar:sonar -Dsonar.qualitygate.wait=true -Dsonar.projectKey=studioghibli2023_backend -Dsonar.organization=studioghibli2023 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      run: mvn -B verify -Dspring-boot.run.profiles=dev sonar:sonar -Dsonar.qualitygate.wait=true -Dsonar.projectKey=studioghibli2023_backend -Dsonar.organization=studioghibli2023 -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
 #
   codeql-analysis:
@@ -54,7 +54,7 @@ jobs:
           languages: java
 
       - name: Build with Maven
-        run: mvn -B package --file pom.xml -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+        run: mvn -B package --file pom.xml -Dspring-boot.run.profiles=dev  -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
@@ -72,7 +72,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml -Dspring-boot.run.profiles=dev
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
