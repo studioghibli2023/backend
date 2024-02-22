@@ -45,7 +45,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin' # This can be 'temurin', 'adopt', or 'zulu'
+          distribution: 'temurin'   
           cache: maven
 
       - name: Initialize CodeQL
@@ -123,33 +123,10 @@ jobs:
     needs: docker-build-and-push # Ensures this job runs after the docker-build-and-push job
     runs-on: ubuntu-latest
     steps:
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
-        mask-aws-account-id: 'no'
-    - name: Login to Amazon ECR
-      id: login-to-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: reconstruct uri name
-      id: cnstrct-uri-name
-      run: |
-       ECR_REGISTRY="${{ steps.login-to-ecr.outputs.registry }}"
-       IMAGE_TAG=${{ needs.docker-build-and-push.outputs.image_tag }}
-       IMAGE_URI="${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG"
-       echo "Reconstructed IMAGE_URI: $IMAGE_URI"
-       echo "Ecr registry : $ECR_REGISTRY"
-                                                     
+                                                       
     - name: Checkout code
       uses: actions/checkout@v3 # Checks out your repository to access the ECS task definition file
 
-    - name: Use IMAGE_URI in Render Task Definition
-      run: |
-          echo "Using IMAGE_URI: ${{ needs.docker-build-and-push.outputs.image_tag }}"
-          # Now you can use $IMAGE_URI as needed in this step or pass it to scripts/commands
 
     - name: Render Amazon ECS task definition
       id: render-task-def
