@@ -85,7 +85,7 @@ jobs:
     outputs:
 
       image_tag: ${{ steps.build-image.outputs.image_tag }}
-      image_uri_name: ${{ steps.build-image.outputs.image_uri_name }}
+      image_uri: ${{ steps.build-image.outputs.image_uri }}
       
     steps:
     - uses: actions/checkout@v3
@@ -112,10 +112,10 @@ jobs:
        docker build -t $IMAGE_URI .
        docker push $IMAGE_URI
        echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
-       echo "image_uri_name=$IMAGE_URI" >> $GITHUB_OUTPUT
+       echo "image_uri=$IMAGE_URI" >> $GITHUB_OUTPUT
      
        echo "Set image_tag as $IMAGE_TAG"
-       echo "Set image_uri_name as $IMAGE_URI"
+       echo "Set image_uri as $IMAGE_URI"
         
 
   update-ecs-service:
@@ -125,8 +125,8 @@ jobs:
 
     - name: Debug Output Value
       run: |
-       echo "Using IMAGE_URI_NAME: ${{ needs.docker-build-and-push.outputs.image_uri_name }}"
-       echo "Using IMAGE_TAG_NAME: ${{ needs.docker-build-and-push.outputs.image_tag }}"
+       echo "Using image_uri: ${{ needs.docker-build-and-push.outputs.image_uri }}"
+       echo "Using IMAGE_TAG: ${{ needs.docker-build-and-push.outputs.image_tag }}"
                                               
     - name: Checkout code
       uses: actions/checkout@v3 # Checks out your repository to access the ECS task definition file
@@ -144,7 +144,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ needs.docker-build-and-push.outputs.image_uri_name }}
+        image: ${{ needs.docker-build-and-push.outputs.image_uri }}
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
