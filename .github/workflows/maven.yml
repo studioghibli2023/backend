@@ -83,8 +83,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     outputs:
-      image_tag: ${{ steps.set-image-tag.outputs.image_tag }}
-      image_uri_name: ${{ steps.build-image.outputs.image_uri_name }}
+      image_tag: ${{ steps.set-image-var.outputs.image_tag }}
+      image_uri_name: ${{ steps.set-image-var.outputs.image_uri_name }}
     steps:
     - uses: actions/checkout@v3
     - name: Download artifact
@@ -109,11 +109,16 @@ jobs:
         IMAGE_URI="$ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG"
         docker build -t $IMAGE_URI .
         docker push $IMAGE_URI
+       
+    - name: Set IMAGE_VAR output
+      id: set-image-var
+      run: |
+        echo "::set-output name=image_tag::${{ github.sha }}"
         echo "::set-output name=image_uri_name::$IMAGE_URI"
-    - name: Set IMAGE_TAG output
-      id: set-image-tag
-      run: echo "::set-output name=image_tag::${{ github.sha }}"
-
+    - name: Echo Image VARS
+      run: |
+       echo "Image URI: ${{ needs.docker-build-and-push.outputs.image_tag }}"
+       echo "Image TAG: ${{ needs.docker-build-and-push.outputs.image_uri_name }}"
 
   update-ecs-service:
     needs: [docker-build-and-push] # Ensures this job runs after the docker-build-and-push job
@@ -128,7 +133,7 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
-    - name: Echo Image URI
+    - name: Echo Image URI AGAIN
       run: |
        echo "Image URI: ${{ needs.docker-build-and-push.outputs.image_uri_name }}"
 
