@@ -142,14 +142,12 @@ jobs:
        IMAGE_URI="${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG"
        echo "Reconstructed IMAGE_URI: $IMAGE_URI"
        echo "Ecr registry : $ECR_REGISTRY"
-       echo "$IMAGE_URI" > image_uri.txt
-                                                
+                                                     
     - name: Checkout code
       uses: actions/checkout@v3 # Checks out your repository to access the ECS task definition file
 
     - name: Use IMAGE_URI in Render Task Definition
       run: |
-          IMAGE_URI=$(cat image_uri.txt)
           echo "Using IMAGE_URI: ${{ needs.docker-build-and-push.outputs.image_tag }}"
           # Now you can use $IMAGE_URI as needed in this step or pass it to scripts/commands
 
@@ -159,7 +157,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ needs.docker-build-and-push.outputs.image_tag }}
+        image: ${{ needs.docker-build-and-push.outputs.image_uri }}
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
