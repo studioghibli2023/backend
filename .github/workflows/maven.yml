@@ -13,7 +13,7 @@ env:
   ECS_SERVICE: backend-studio-ghibli-ecs-service-task
   ECS_CLUSTER: studio-ghibli-ecs-cluster
   CONTAINER_NAME: backend-studio-ghibli-container
-  IMAGE_TAG: latest  # This will be overwritten in the docker-build-and-push job
+  ECS_TASK_DEFINITION: app-task-definition.json # set this to the path to your Amazon ECS task definition
 
 jobs:
   sonar-cloud-test:
@@ -82,6 +82,8 @@ jobs:
   docker-build-and-push:
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.set_output.outputs.image_tag }}
     steps:
     - uses: actions/checkout@v3
     - name: Download artifact
@@ -106,22 +108,39 @@ jobs:
         docker build -t $IMAGE_URI .
         docker push $IMAGE_URI
         echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+    - name: Set IMAGE_TAG output
+      run: echo "image_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
 
   update-ecs-service:
-    needs: docker-build-and-push
+    needs: [docker-build-and-push] # Ensures this job runs after the docker-build-and-push job
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3 # Checks out your repository to access the ECS task definition file
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
-    - name: Update ECS Service
-      run: |
-        aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} --service ${{ env.ECS_SERVICE }} --force-new-deployment
 
- 
+    - name: Render Amazon ECS task definition
+      id: render-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ needs.docker-build-and-push.outputs.IMAGE_URI }} # Uses the image URI output from the docker-build-and-push job
+
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.render-task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true
+
       #  ------------------------------------- Trivy vulnerability scan  -------------------------------------
   trivy-security-scan:
     needs: docker-build-and-push
@@ -143,7 +162,7 @@ jobs:
       - name: Install and run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: '${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}'
+          image-ref: '${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ needs.docker-build-and-push.outputs.image_tag }}'
           format: 'table'
           exit-code: '1'
           severity: 'CRITICAL'
