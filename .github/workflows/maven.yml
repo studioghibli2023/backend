@@ -85,7 +85,11 @@ jobs:
     outputs:
 
       image_tag: ${{ steps.set-image-tag.outputs.image_tag }}
+  
       image_uri_name: ${{ steps.build-image.outputs.image_uri_name }}
+
+
+      
     steps:
     - uses: actions/checkout@v3
     - name: Download artifact
@@ -121,6 +125,11 @@ jobs:
     needs: [docker-build-and-push] # Ensures this job runs after the docker-build-and-push job
     runs-on: ubuntu-latest
     steps:
+
+    - name: Debug Output Value
+      run: |
+       echo "Using IMAGE_URI_NAME: ${{ needs.docker-build-and-push.outputs.image_uri_name }}"
+
     - name: Checkout code
       uses: actions/checkout@v3 # Checks out your repository to access the ECS task definition file
 
@@ -140,8 +149,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ needs.docker-build-and-push.outputs.image_uri_name }} # Uses the image URI output from the docker-build-and-push job
-
+        image: ${{ needs.docker-build-and-push.outputs.image_uri_name }}
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
