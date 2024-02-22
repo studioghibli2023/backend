@@ -126,6 +126,7 @@ jobs:
     - name: Debug Output Value
       run: |
        echo "Using IMAGE_URI_NAME: ${{ needs.docker-build-and-push.outputs.image_uri_name }}"
+       echo "Using IMAGE_TAG_NAME: ${{ needs.docker-build-and-push.outputs.image_tag }}"
                                               
     - name: Checkout code
       uses: actions/checkout@v3 # Checks out your repository to access the ECS task definition file
