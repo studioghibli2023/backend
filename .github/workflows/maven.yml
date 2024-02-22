@@ -83,7 +83,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     outputs:
-      image_tag: ${{ steps.set_output.outputs.image_tag }}
+      image_tag: ${{ steps.set-image-tag.outputs.image_tag }}
+      image_uri: ${{ steps.build-image.outputs.image_uri }}
     steps:
     - uses: actions/checkout@v3
     - name: Download artifact
@@ -101,15 +102,18 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
     - name: Build, tag, and push Docker image to Amazon ECR
+      id: build-image
       run: |
         ECR_REGISTRY="${{ steps.login-ecr.outputs.registry }}"
         IMAGE_TAG=${{ github.sha }}
         IMAGE_URI="$ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG"
         docker build -t $IMAGE_URI .
         docker push $IMAGE_URI
-        echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+        echo "::set-output name=image_uri::$IMAGE_URI"
     - name: Set IMAGE_TAG output
-      run: echo "image_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
+      id: set-image-tag
+      run: echo "::set-output name=image_tag::${{ github.sha }}"
+
 
   update-ecs-service:
     needs: [docker-build-and-push] # Ensures this job runs after the docker-build-and-push job
