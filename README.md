@@ -1,7 +1,8 @@
 # Application
 
 Testing the application:
-1. Run App.java
+1. Run App.java with local profile 
+2. Java command : java -jar app.jar --spring.profiles.active=local
 2. Test using swagger : http://localhost:8080/app/swagger-ui/index.html
 3. Database for test : http://localhost:8080/app/h2-console
 
