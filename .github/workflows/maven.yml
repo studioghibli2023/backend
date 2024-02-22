@@ -135,7 +135,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ needs.docker-build-and-push.outputs.IMAGE_URI }} # Uses the image URI output from the docker-build-and-push job
+        image: ${{ needs.docker-build-and-push.outputs.image_uri }} # Uses the image URI output from the docker-build-and-push job
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
