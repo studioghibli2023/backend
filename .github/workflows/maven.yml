@@ -150,7 +150,7 @@ jobs:
     - name: Use IMAGE_URI in Render Task Definition
       run: |
           IMAGE_URI=$(cat image_uri.txt)
-          echo "Using IMAGE_URI: $IMAGE_URI"
+          echo "Using IMAGE_URI: ${{ needs.docker-build-and-push.outputs.image_tag }}"
           # Now you can use $IMAGE_URI as needed in this step or pass it to scripts/commands
 
     - name: Render Amazon ECS task definition
@@ -159,7 +159,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.cnstrct-uri-name.outputs.image_uri }}
+        image: ${{ needs.docker-build-and-push.outputs.image_tag }}
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
