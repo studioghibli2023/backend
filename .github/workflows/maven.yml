@@ -119,14 +119,14 @@ jobs:
         
 
   update-ecs-service:
-    needs: [docker-build-and-push] # Ensures this job runs after the docker-build-and-push job
+    needs: docker-build-and-push # Ensures this job runs after the docker-build-and-push job
     runs-on: ubuntu-latest
     steps:
 
     - name: Debug Output Value
       run: |
        echo "Using IMAGE_URI_NAME: ${{ needs.docker-build-and-push.outputs.image_uri_name }}"
-
+                                              
     - name: Checkout code
       uses: actions/checkout@v3 # Checks out your repository to access the ECS task definition file
 
@@ -136,9 +136,6 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
-    - name: Echo Image URI AGAIN
-      run: |
-       echo "Image URI: ${{ needs.docker-build-and-push.outputs.image_uri_name }}"
 
     - name: Render Amazon ECS task definition
       id: render-task-def
