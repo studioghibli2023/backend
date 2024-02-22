@@ -84,11 +84,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
 
-      image_tag: ${{ steps.set-image-tag.outputs.image_tag }}
-  
+      image_tag: ${{ steps.build-image.outputs.image_tag }}
       image_uri_name: ${{ steps.build-image.outputs.image_uri_name }}
-
-
       
     steps:
     - uses: actions/checkout@v3
