@@ -112,11 +112,10 @@ jobs:
        docker push $IMAGE_URI
        echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
        echo "image_uri_name=$IMAGE_URI" >> $GITHUB_OUTPUT
-
-    - name: Echo Image VARS
-      run: |
-       echo "Image URI: ${{ needs.docker-build-and-push.outputs.image_tag }}"
-       echo "Image TAG: ${{ needs.docker-build-and-push.outputs.image_uri_name }}"
+     
+       echo "Set image_tag as $IMAGE_TAG"
+       echo "Set image_uri_name as $IMAGE_URI"
+        
 
   update-ecs-service:
     needs: [docker-build-and-push] # Ensures this job runs after the docker-build-and-push job
