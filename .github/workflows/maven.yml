@@ -84,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       image_tag: ${{ steps.set-image-tag.outputs.image_tag }}
-      image_uri-name: ${{ steps.build-image.outputs.image_uri-name }}
+      image_uri_name: ${{ steps.build-image.outputs.image_uri_name }}
     steps:
     - uses: actions/checkout@v3
     - name: Download artifact
@@ -109,7 +109,7 @@ jobs:
         IMAGE_URI="$ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG"
         docker build -t $IMAGE_URI .
         docker push $IMAGE_URI
-        echo "::set-output name=image_uri-name::$IMAGE_URI"
+        echo "::set-output name=image_uri_name::$IMAGE_URI"
     - name: Set IMAGE_TAG output
       id: set-image-tag
       run: echo "::set-output name=image_tag::${{ github.sha }}"
@@ -130,7 +130,7 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
     - name: Echo Image URI
       run: |
-       echo "Image URI: ${{ needs.docker-build-and-push.outputs.image_uri-name }}"
+       echo "Image URI: ${{ needs.docker-build-and-push.outputs.image_uri_name }}"
 
     - name: Render Amazon ECS task definition
       id: render-task-def
@@ -138,7 +138,7 @@ jobs:
       with:
         task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ needs.docker-build-and-push.outputs.image_uri-name }} # Uses the image URI output from the docker-build-and-push job
+        image: ${{ needs.docker-build-and-push.outputs.image_uri_name }} # Uses the image URI output from the docker-build-and-push job
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
