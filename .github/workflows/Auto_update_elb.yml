@@ -1,4 +1,6 @@
 name: Update ELB Name in Application Repo
+permissions:
+  contents: write
 
 on:
   repository_dispatch:
