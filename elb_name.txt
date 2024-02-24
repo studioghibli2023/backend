@@ -1,1 +1,1 @@
-ELB Name: 
+ELB Name: BE-studio-ghibli-load-balancer-789928797.us-east-1.elb.amazonaws.com
