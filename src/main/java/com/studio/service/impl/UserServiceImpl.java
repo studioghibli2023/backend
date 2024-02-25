@@ -3,12 +3,12 @@ package com.studio.service.impl;
 import com.studio.common.UserRole;
 import com.studio.domain.Course;
 import com.studio.domain.User;
-import com.studio.dto.CourseDTO;
 import com.studio.dto.UserDTO;
 import com.studio.repository.CourseRepository;
 import com.studio.repository.UserRepository;
 import com.studio.service.UserService;
 import com.studio.util.DataTransferUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,16 +26,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO getUser(final long userId) {
         User userDomain = userRepository.findById(userId).get();
-        UserDTO user = new UserDTO();
-        user.setId(userDomain.getId());
-        user.setEmail(userDomain.getEmail());
-        user.setName(userDomain.getName());
-        user.setPassword(userDomain.getPassword());
-        user.setUserRole(UserRole.getUserRole(userDomain.getRole()));
-        Course course = userDomain.getCourse();
-        CourseDTO courseDTO = DataTransferUtil.getCourseDTO(course);
-        user.setCourse(courseDTO);
-        return user;
+        return DataTransferUtil.getUserDTO(userDomain);
     }
 
 
@@ -45,12 +36,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("User already exists");
         }
-        User userDomain = new User();
-        userDomain.setName(user.getName());
-        userDomain.setEmail(user.getEmail());
-        userDomain.setPassword(user.getPassword());
-        userDomain.setRole(user.getUserRole().getRoleNumber());
-        return userRepository.save(userDomain);
+        return userRepository.save(DataTransferUtil.getUserDomain(user));
     }
 
     @Override
@@ -72,5 +58,16 @@ public class UserServiceImpl implements UserService {
                         userRepository.save(user);
                     });
         }
+    }
+
+    public UserDTO userLogin(final String email, final String password) {
+        if (StringUtils.isNotBlank(email) && StringUtils.isNotBlank(password)) {
+            Optional<User> user = Optional.ofNullable(userRepository.findByEmailAndPassword(email, password));
+            if (user.isPresent()) {
+                return DataTransferUtil.getUserDTO(user.get());
+            }
+        }
+        throw new RuntimeException("Username or password are incorrect!");
+
     }
 }

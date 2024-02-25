@@ -73,4 +73,13 @@ public class UserController {
         }
 
     }
+    @GetMapping(path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> login(@RequestParam  String email, @RequestParam String password) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(userService.userLogin(email,password));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+        }
+
+    }
 }

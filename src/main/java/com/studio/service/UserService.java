@@ -13,4 +13,6 @@ public interface UserService {
     User saveUser(UserDTO user) throws RuntimeException;
 
     void updateUser(final long userId, final long courseId);
+
+    UserDTO userLogin(final String email, final String password);
 }

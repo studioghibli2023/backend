@@ -1,7 +1,10 @@
 package com.studio.util;
 
+import com.studio.common.UserRole;
 import com.studio.domain.Course;
+import com.studio.domain.User;
 import com.studio.dto.CourseDTO;
+import com.studio.dto.UserDTO;
 
 public class DataTransferUtil {
 
@@ -27,5 +30,23 @@ public class DataTransferUtil {
         course.setImage(courseDTO.getImage());
         course.setDuration(courseDTO.getDuration());
         return course;
+    }
+    public static UserDTO getUserDTO(final User userDomain){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserRole(UserRole.getUserRole(userDomain.getRole()));
+        userDTO.setCourse(getCourseDTO(userDomain.getCourse()));
+        userDTO.setEmail(userDomain.getEmail());
+        userDTO.setId(userDomain.getId());
+        userDTO.setPassword(userDomain.getPassword());
+        userDTO.setName(userDomain.getName());
+        return userDTO;
+    }
+    public static User getUserDomain(final UserDTO user){
+        User userDomain = new User();
+        userDomain.setName(user.getName());
+        userDomain.setEmail(user.getEmail());
+        userDomain.setPassword(user.getPassword());
+        userDomain.setRole(user.getUserRole().getRoleNumber());
+        return userDomain;
     }
 }

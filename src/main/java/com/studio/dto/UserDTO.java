@@ -1,5 +1,6 @@
 package com.studio.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.studio.common.UserRole;
 
 public class UserDTO {
@@ -35,6 +36,7 @@ public class UserDTO {
         return name;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
