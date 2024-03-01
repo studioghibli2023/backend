@@ -48,7 +48,7 @@
         "FARGATE"
     ],
     "cpu": "512",
-    "memory": "3072",
+    "memory": "2048",
     "registeredAt": "2024-03-01T18:28:03.736Z",
     "registeredBy": "arn:aws:iam::667864223568:user/l00157158@atu.ie",
     "tags": []
