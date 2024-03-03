@@ -1,5 +1,5 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:667864223568:task-definition/backend-studio-ghibli-task-family:62",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:667864223568:task-definition/backend-studio-ghibli-task-family:64",
     "containerDefinitions": [
         {
             "name": "backend-studio-ghibli-container",
@@ -22,7 +22,7 @@
     "family": "backend-studio-ghibli-task-family",
     "executionRoleArn": "arn:aws:iam::667864223568:role/studio-ghibli-ecs-execution-role",
     "networkMode": "awsvpc",
-    "revision": 62,
+    "revision": 64,
     "volumes": [],
     "status": "ACTIVE",
     "requiresAttributes": [
@@ -48,8 +48,8 @@
         "FARGATE"
     ],
     "cpu": "512",
-    "memory": "3072",
-    "registeredAt": "2024-03-03T17:45:36.320Z",
+    "memory": "2048",
+    "registeredAt": "2024-03-03T18:14:11.583Z",
     "registeredBy": "arn:aws:iam::667864223568:user/l00157158@atu.ie",
     "tags": []
 }
