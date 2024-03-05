@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/course")
-@CrossOrigin(origins = "${app.frontend-origin}")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CourseController {
 
     @Autowired
