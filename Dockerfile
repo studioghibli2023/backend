@@ -1,4 +1,4 @@
     FROM openjdk:17-alpine
 VOLUME /tmp
 COPY target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar","--spring.profiles.active=dev"]
+ENTRYPOINT ["java","-Dspring.profiles.active=dev","-jar","/app.jar"]
