@@ -14,5 +14,3 @@ spring:
 server:
   servlet:
     context-path: "/app"
-app:
-  frontend-origin : "http://localhost:4200"

@@ -12,5 +12,3 @@ spring:
 server:
   servlet:
     context-path: "/app"
-app:
-  frontend-origin: : "http://fe-studio-ghibli-load-balancer-618972490.us-east-1.elb.amazonaws.com/"

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "${app.frontend-origin}")
+@CrossOrigin(origins = "http://fe-studio-ghibli-load-balancer-618972490.us-east-1.elb.amazonaws.com/")
 public class UserController {
 
     @Autowired
