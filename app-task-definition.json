@@ -15,8 +15,7 @@
             "essential": true,
             "environment": [],
             "mountPoints": [],
-            "volumesFrom": [],
-            "systemControls": []
+            "volumesFrom": []
         }
     ],
     "family": "backend-studio-ghibli-task-family",
@@ -50,6 +49,6 @@
     "cpu": "512",
     "memory": "2048",
     "registeredAt": "2024-03-03T18:14:11.583Z",
-    "registeredBy": "arn:aws:iam::667864223568:user/l00157158@atu.ie",
+    "registeredBy": "arn:aws:iam::667864223568:user/L00179719@atu.ie",
     "tags": []
 }
