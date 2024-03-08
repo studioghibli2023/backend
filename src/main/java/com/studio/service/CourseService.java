@@ -8,4 +8,5 @@ import java.util.List;
 public interface CourseService {
     List<CourseDTO> getAll();
     Course updateCourse(final CourseDTO courseDTO);
+    Course saveCourse(final CourseDTO courseDTO);
 }

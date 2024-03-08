@@ -39,4 +39,13 @@ public class CourseServiceImpl implements CourseService {
             throw new RuntimeException("Course ID does not exist!");
         }
     }
+    public Course saveCourse(final CourseDTO courseDTO) {
+            Course courseDomain = new Course();
+            courseDomain.setName(courseDTO.getName());
+            courseDomain.setDescription(courseDTO.getDescription());
+            courseDomain.setImage(courseDTO.getImage());
+            courseDomain.setPrice(courseDTO.getPrice());
+            courseDomain.setDuration(courseDTO.getDuration());
+            return courseRepository.save(courseDomain);
+    }
 }

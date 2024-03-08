@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/course")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "${app.frontend-origin}")
 public class CourseController {
 
     @Autowired
@@ -41,6 +41,23 @@ public class CourseController {
             courseDTO.setImage(image);
             courseDTO.setDuration(duration);
             courseService.updateCourse(courseDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+        }
+
+    }
+    @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> saveCourse(@RequestParam String name, @RequestParam String description, @RequestParam String image,
+                                               @RequestParam BigDecimal price, @RequestParam int duration) {
+        try {
+            CourseDTO courseDTO = new CourseDTO();
+            courseDTO.setName(name);
+            courseDTO.setDescription(description);
+            courseDTO.setPrice(price);
+            courseDTO.setImage(image);
+            courseDTO.setDuration(duration);
+            courseService.saveCourse(courseDTO);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
