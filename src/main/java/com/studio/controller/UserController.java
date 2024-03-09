@@ -29,6 +29,15 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
         }
     }
+    @GetMapping(path = "/obtainByEmail", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getUser(@RequestParam String email) {
+        try {
+            UserDTO customer = userService.getUserByEmail(email);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(customer);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+        }
+    }
 
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> saveCustomer(@RequestParam String name, @RequestParam String email, @RequestParam String password) {

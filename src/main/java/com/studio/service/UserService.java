@@ -15,4 +15,6 @@ public interface UserService {
     void updateUser(final long userId, final long courseId);
 
     UserDTO userLogin(final String email, final String password);
+
+    UserDTO getUserByEmail(final String email);
 }

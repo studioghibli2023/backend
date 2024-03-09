@@ -25,11 +25,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUser(final long userId) {
-        User userDomain = userRepository.findById(userId).get();
-        return DataTransferUtil.getUserDTO(userDomain);
+         if(userRepository.findById(userId).isPresent()){
+             return DataTransferUtil.getUserDTO(userRepository.findById(userId).get());
+         }else{
+             throw new RuntimeException("User not found.");
+         }
     }
-
-
+    @Override
+    public UserDTO getUserByEmail(final String email) {
+         User user = userRepository.findByEmail(email);
+         if(user != null){
+            return DataTransferUtil.getUserDTO(user);
+        }else{
+            throw new RuntimeException("User not found.");
+        }
+    }
     @Override
 
     public User saveUser(UserDTO user) throws RuntimeException {
@@ -50,14 +60,12 @@ public class UserServiceImpl implements UserService {
 
     public void updateUser(final long userId, final long courseId) {
         Optional<Course> course = courseRepository.findById(courseId);
-        if (course.isPresent()) {
-            userRepository
-                    .findById(userId)
-                    .ifPresent(user -> {
-                        user.setCourse(course.get());
-                        userRepository.save(user);
-                    });
-        }
+        course.ifPresent(value -> userRepository
+                .findById(userId)
+                .ifPresent(user -> {
+                    user.setCourse(value);
+                    userRepository.save(user);
+                }));
     }
 
     public UserDTO userLogin(final String email, final String password) {
