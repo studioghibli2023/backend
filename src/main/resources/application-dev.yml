@@ -13,4 +13,4 @@ server:
   servlet:
     context-path: "/app"
 app:
-  frontend-origin: : "http://fe-studio-ghibli-load-balancer-618972490.us-east-1.elb.amazonaws.com/"
+  frontend-origin: "http://fe-studio-ghibli-load-balancer-1792101321.us-east-1.elb.amazonaws.com/"
