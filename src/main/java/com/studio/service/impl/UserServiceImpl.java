@@ -42,11 +42,28 @@ public class UserServiceImpl implements UserService {
     }
     @Override
 
-    public User saveUser(UserDTO user) throws RuntimeException {
+    public User saveUser(final UserDTO user) throws RuntimeException {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("User already exists");
         }
         return userRepository.save(DataTransferUtil.getUserDomain(user));
+    }
+    public User saveUser(UserDTO userDto, final Long courseId) throws RuntimeException {
+        if (userRepository.existsByEmail(userDto.getEmail())) {
+            throw new RuntimeException("User already exists");
+        }
+        if(courseId != null){
+            Optional<Course> course = courseRepository.findById(courseId);
+            if(course.isPresent()) {
+              User user = DataTransferUtil.getUserDomain(userDto);
+              user.setCourse(course.get());
+              return userRepository.save(user);
+            }else{
+               throw new RuntimeException("Course doesnt exists");
+            }
+        }else{
+            throw new RuntimeException("Course is invalid");
+        }
     }
 
     @Override

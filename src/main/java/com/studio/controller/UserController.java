@@ -1,6 +1,7 @@
 package com.studio.controller;
 
 import com.studio.common.UserRole;
+import com.studio.dto.CourseDTO;
 import com.studio.dto.UserDTO;
 import com.studio.service.UserService;
 import com.studio.service.impl.UserServiceImpl;
@@ -41,18 +42,27 @@ public class UserController {
 
     @PostMapping(path = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> saveCustomer(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
-        return saveUser(name, email, password,UserRole.CUSTOMER);
+        return saveUser(name, email, password,UserRole.CUSTOMER, null);
+    }
+    @PostMapping(path = "/saveUserWithCourse", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> saveCustomer(@RequestParam String name, @RequestParam String email, @RequestParam String password,
+                                               @RequestParam Long courseId ) {
+        return saveUser(name, email, password,UserRole.CUSTOMER, courseId);
     }
     @PostMapping(path = "/saveAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> saveAdmin(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
-        return saveUser(name, email, password,UserRole.ADMIN);
+        return saveUser(name, email, password,UserRole.ADMIN, null);
     }
 
-    private ResponseEntity<Object> saveUser(String name, String email, String password,UserRole userRole) {
+    private ResponseEntity<Object> saveUser(String name, String email, String password,UserRole userRole, Long courseId) {
         if (DataValidationUtil.isValidName(name) && DataValidationUtil.isValidEmail(email) && StringUtils.isNotBlank(password)) {
             try {
                 UserDTO user = new UserDTO(name, email, password, userRole);
-                userService.saveUser(user);
+                if(courseId != null){
+                    userService.saveUser(user,courseId);
+                }else{
+                    userService.saveUser(user);
+                }
                 return ResponseEntity.status(HttpStatus.CREATED).build();
             } catch (RuntimeException e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!" + e.getMessage());
