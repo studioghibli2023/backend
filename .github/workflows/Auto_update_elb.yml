@@ -23,7 +23,7 @@ jobs:
           git push
           
       - name: Update bepmenv.json
-        uses: restackio/update-json-file-action@v2.1
+        uses: restackio/update-json-file-action@v2.0
         with:
           file: bepmenv.json
           fields: "{\"values.value\": \"${{ github.event.client_payload.elbName }}\"}"
