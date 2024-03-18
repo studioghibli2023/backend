@@ -1,1 +1,1 @@
-BE-studio-ghibli-load-balancer-1255048284.us-east-1.elb.amazonaws.com
+BE-studio-ghibli-load-balancer-465357334.us-east-1.elb.amazonaws.com
