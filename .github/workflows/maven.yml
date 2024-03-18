@@ -186,4 +186,4 @@ jobs:
     steps:
      - uses: actions/checkout@v3
      - name: Run Postman Tests
-       run: newman run "StudioGhibli20233 - Backend.postman_collection.json"
+       run: newman run "StudioGhibli20233 - Backend.postman_collection.json" -e "bepmenv.json"

@@ -21,3 +21,9 @@ jobs:
           git add elb_name.txt
           git commit -m "Update ELB name"
           git push
+          
+      - name: Update bepmenv.json
+        uses: restackio/update-json-file-action@v2.1
+        with:
+            fields: "{\"values.value\": \"${{ github.event.client_payload.elbName }}\"}"
+            file: bepmenv.json
