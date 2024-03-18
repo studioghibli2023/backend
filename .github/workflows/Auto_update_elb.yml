@@ -22,6 +22,12 @@ jobs:
           git commit -m "Update ELB name"
           git push
           
+  update-pm-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+          
       - name: Update bepmenv.json
         uses: restackio/update-json-file-action@v2.0
         with:
