@@ -36,7 +36,7 @@ jobs:
         with:
           file: bepmenv.json
           #fields: "{\"values.value\": \"${{ github.event.client_payload.elbName }}\"}"
-          fields: "{\"values.value[0]\": \"teststring\"}"
+          fields: "{\"value\": \"teststring\"}"
       - name: Print bepmenv.json content
         run: cat bepmenv.json
             
