@@ -37,6 +37,15 @@ jobs:
           file: bepmenv.json
           #fields: "{\"values.value\": \"${{ github.event.client_payload.elbName }}\"}"
           fields: "{\"value\": \"teststring\"}"
+          
+      - name: Update ELB Name in Text File
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add bepmenv.json
+          git commit -m "Update bepmenv.json"
+          git push
+          
       - name: Print bepmenv.json content
         run: cat bepmenv.json
             
