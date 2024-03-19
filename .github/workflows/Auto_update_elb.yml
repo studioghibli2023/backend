@@ -36,5 +36,5 @@ jobs:
         with:
           file: bepmenv.json
           #fields: "{\"values.value\": \"${{ github.event.client_payload.elbName }}\"}"
-          fields: "{\"values.value\": \"https:\\google.com\"}"
+          fields: "{\"values.value\": \"teststring\"}"
             
