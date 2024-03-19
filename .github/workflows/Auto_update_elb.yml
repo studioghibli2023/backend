@@ -5,6 +5,7 @@ permissions:
 on:
   repository_dispatch:
     types: [update-elb]
+    workflow_dispatch:
 
 jobs:
   update-elb-name:
@@ -29,8 +30,9 @@ jobs:
         uses: actions/checkout@v2
           
       - name: Update bepmenv.json
-        uses: restackio/update-json-file-action@v2.0
+        uses: restackio/update-json-file-action@v2.1
         with:
           file: bepmenv.json
-          fields: "{\"values.value\": \"${{ github.event.client_payload.elbName }}\"}"
+          #fields: "{\"values.value\": \"${{ github.event.client_payload.elbName }}\"}"
+          fields: "{\"values.value\": \"https:\\google.com\"}"
             
