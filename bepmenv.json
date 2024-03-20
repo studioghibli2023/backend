@@ -4,7 +4,7 @@
   "values": [
     {
       "key": "serviceURL",
-      "value": "http://localhost:8080",
+      "value": "teststring",
       "type": "default",
       "enabled": true
     }
