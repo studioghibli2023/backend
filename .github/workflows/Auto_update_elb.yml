@@ -36,7 +36,8 @@ jobs:
         with:
           file: bepmenv.json
           #fields: "{\"values.value\": \"${{ github.event.client_payload.elbName }}\"}"
-          fields: "{\"value\": \"teststring\"}"
+          #fields: "{\"value\": \"teststring\"}"
+          fields: '{"values[0].value": "teststring"}'
           
       - name: Update ELB Name in Text File
         run: |
