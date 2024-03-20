@@ -41,7 +41,7 @@ jobs:
           #"values[0].value": "${{ github.event.client_payload.elbName }}"
           fields: |
             {
-            "values[0].value": "testsrting"
+            "values[0].value": "testsrting-2"
             }
             
       - name: Update ELB Name in Text File
