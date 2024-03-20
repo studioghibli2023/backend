@@ -38,8 +38,11 @@ jobs:
           #fields: "{\"values.value\": \"${{ github.event.client_payload.elbName }}\"}"
           #fields: "{\"value\": \"teststring\"}"
           #fields: '{"values[0].value": "teststring"}'
-          fields: '{"values[0].value": "${{ github.event.client_payload.elbName }}"}'
-          
+          fields: |
+            {
+            "values[0].value": "${{ github.event.client_payload.elbName }}"
+            }
+            
       - name: Update ELB Name in Text File
         run: |
           git config --global user.name 'GitHub Actions'
