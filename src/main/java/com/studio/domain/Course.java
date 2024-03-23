@@ -3,6 +3,7 @@ package com.studio.domain;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "course")
@@ -16,8 +17,8 @@ public class Course {
     private String image;
     private BigDecimal price;
     private int duration;
-    @OneToOne(mappedBy = "course")
-    private User user;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
+    private List<User> users;
 
     public int getDuration() {
         return duration;
@@ -51,20 +52,20 @@ public class Course {
         this.image = image;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public long getId() {

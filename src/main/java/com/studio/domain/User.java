@@ -12,7 +12,7 @@ public class User {
     private String email;
     private int role;
     private String password;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 
