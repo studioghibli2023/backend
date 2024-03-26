@@ -4,7 +4,7 @@
   "values": [
     {
       "key": "serviceURL",
-      "value": "BE-studio-ghibli-load-balancer-1014246214.us-east-1.elb.amazonaws.com",
+      "value": "BE-studio-ghibli-load-balancer-402612784.us-east-1.elb.amazonaws.com",
       "type": "default",
       "enabled": true
     }
