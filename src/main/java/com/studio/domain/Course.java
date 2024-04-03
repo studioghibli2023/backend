@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "course")
@@ -18,7 +19,7 @@ public class Course {
     private BigDecimal price;
     private int duration;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
-    private List<User> users;
+    private Set<User> users;
 
     public int getDuration() {
         return duration;
@@ -52,11 +53,11 @@ public class Course {
         this.image = image;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 
