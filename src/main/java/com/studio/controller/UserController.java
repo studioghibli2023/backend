@@ -88,7 +88,7 @@ public class UserController {
             userService.updateUser(userId, courseId);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!" + e.getMessage());
         }
 
     }
