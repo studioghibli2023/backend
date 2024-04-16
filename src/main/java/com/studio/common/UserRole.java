@@ -3,7 +3,7 @@ package com.studio.common;
 public enum UserRole {
     ADMIN(1), CUSTOMER(2);
 
-    private int roleNumber;
+    private final int roleNumber;
 
     UserRole(final int roleNumber) {
         this.roleNumber = roleNumber;
@@ -25,9 +25,6 @@ public enum UserRole {
     }
 
     public static boolean isAdminUser(final UserRole userRole) {
-        if (UserRole.ADMIN == userRole) {
-            return true;
-        }
-        return false;
+        return UserRole.ADMIN == userRole;
     }
 }

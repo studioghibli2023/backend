@@ -1,6 +1,5 @@
 package com.studio.service;
 
-import com.studio.domain.User;
 import com.studio.dto.UserDTO;
 
 import java.util.List;

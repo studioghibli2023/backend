@@ -1,7 +1,6 @@
 package com.studio.controller;
 
 import com.studio.common.UserRole;
-import com.studio.dto.CourseDTO;
 import com.studio.dto.UserDTO;
 import com.studio.service.UserService;
 import com.studio.service.impl.UserServiceImpl;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "${app.frontend-origin}")
 public class UserController {
 
+    public static final String SOMETHING_WENT_WRONG = "Something went wrong!";
     @Autowired
     private UserService userService = new UserServiceImpl();
 
@@ -27,7 +27,7 @@ public class UserController {
             UserDTO customer = userService.getUser(customerId);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(customer);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(SOMETHING_WENT_WRONG);
         }
     }
     @GetMapping(path = "/obtainByEmail", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,7 +36,7 @@ public class UserController {
             UserDTO customer = userService.getUserByEmail(email);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(customer);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(SOMETHING_WENT_WRONG);
         }
     }
 
@@ -65,7 +65,7 @@ public class UserController {
                 }
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
             } catch (RuntimeException e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!" + e.getMessage());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(SOMETHING_WENT_WRONG + e.getMessage());
             }
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid data");
@@ -77,7 +77,7 @@ public class UserController {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(userService.getUsers());
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(SOMETHING_WENT_WRONG);
         }
 
     }
@@ -88,7 +88,7 @@ public class UserController {
             userService.updateUser(userId, courseId);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(SOMETHING_WENT_WRONG + e.getMessage());
         }
 
     }
@@ -97,7 +97,7 @@ public class UserController {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(userService.userLogin(email,password));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(SOMETHING_WENT_WRONG);
         }
 
     }

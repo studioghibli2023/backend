@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 @CrossOrigin(origins = "${app.frontend-origin}")
 public class CourseController {
 
+    public static final String SOMETHING_WENT_WRONG = "Something went wrong!";
     @Autowired
     private CourseService courseService = new CourseServiceImpl();
 
@@ -24,7 +25,7 @@ public class CourseController {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(courseService.getAll());
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(SOMETHING_WENT_WRONG);
         }
 
     }
@@ -43,7 +44,7 @@ public class CourseController {
             courseService.updateCourse(courseDTO);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(SOMETHING_WENT_WRONG);
         }
 
     }
@@ -60,7 +61,7 @@ public class CourseController {
             courseService.saveCourse(courseDTO);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(SOMETHING_WENT_WRONG);
         }
 
     }
