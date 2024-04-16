@@ -42,13 +42,13 @@ public class UserServiceImpl implements UserService {
     }
     @Override
 
-    public User saveUser(final UserDTO user) throws RuntimeException {
+    public UserDTO saveUser(final UserDTO user) throws RuntimeException {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("User already exists");
         }
-        return userRepository.save(DataTransferUtil.getUserDomain(user));
+        return DataTransferUtil.getUserDTO( userRepository.save(DataTransferUtil.getUserDomain(user)));
     }
-    public User saveUser(UserDTO userDto, final Long courseId) throws RuntimeException {
+    public UserDTO saveUser(UserDTO userDto, final Long courseId) throws RuntimeException {
         if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new RuntimeException("User already exists");
         }
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
             if(course.isPresent()) {
               User user = DataTransferUtil.getUserDomain(userDto);
               user.setCourse(course.get());
-              return userRepository.save(user);
+              return DataTransferUtil.getUserDTO(userRepository.save(user));
             }else{
                throw new RuntimeException("Course doesnt exists");
             }

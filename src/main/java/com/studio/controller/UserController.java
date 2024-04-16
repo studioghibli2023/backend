@@ -59,11 +59,11 @@ public class UserController {
             try {
                 UserDTO user = new UserDTO(name, email, password, userRole);
                 if(courseId != null){
-                    userService.saveUser(user,courseId);
+                    user = userService.saveUser(user,courseId);
                 }else{
-                    userService.saveUser(user);
+                    user = userService.saveUser(user);
                 }
-                return ResponseEntity.status(HttpStatus.CREATED).build();
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
             } catch (RuntimeException e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong!" + e.getMessage());
             }
